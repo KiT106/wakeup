@@ -3,10 +3,11 @@ package io.dungdm93.wakeup;
 import io.dungdm93.wakeup.models.Address;
 import io.dungdm93.wakeup.models.Employee;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.ListJoin;
+import javax.persistence.criteria.Root;
 import java.util.Arrays;
 
 public class Main {
@@ -14,10 +15,22 @@ public class Main {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("WakeUp");
         EntityManager em = emf.createEntityManager();
 
-        setUp(em);
+        inquiry(em);
 
         em.close();
         emf.close();
+    }
+
+    public static void inquiry(EntityManager em) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Employee> q = cb.createQuery(Employee.class);
+        Root<Employee> employee = q.from(Employee.class);
+        ListJoin<Employee, Address> address = employee.joinList("addresses");
+
+        q.select(employee).distinct(true)
+                .where(cb.like(address.get("city"), "%Binh%"));
+        TypedQuery<Employee> query = em.createQuery(q);
+        query.getResultList().forEach(System.out::println);
     }
 
     public static void setUp(EntityManager em) {

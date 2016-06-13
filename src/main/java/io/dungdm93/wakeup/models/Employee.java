@@ -22,4 +22,9 @@ public class Employee {
             inverseJoinColumns = @JoinColumn(name = "addressId", referencedColumnName = "id")
     )
     public List<Address> addresses;
+
+    @Override
+    public String toString() {
+        return String.format("Employee: [%s, %d]", name, age);
+    }
 }
