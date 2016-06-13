@@ -1,8 +1,7 @@
 package io.dungdm93.wakeup.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -14,4 +13,13 @@ public class Employee {
 
     public String name;
     public Integer age;
+
+
+    @ManyToMany
+    @JoinTable(
+            name = "employee_address",
+            joinColumns = @JoinColumn(name = "employeeId", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "addressId", referencedColumnName = "id")
+    )
+    public List<Address> addresses;
 }
