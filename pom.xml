@@ -18,6 +18,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <hibernate.version>5.1.0.Final</hibernate.version>
+        <mysql-driver.version>6.0.2</mysql-driver.version>
     </properties>
 
     <dependencies>
@@ -31,6 +32,11 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
             <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql-driver.version}</version>
         </dependency>
     </dependencies>
 </project>
