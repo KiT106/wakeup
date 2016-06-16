@@ -7,8 +7,9 @@
     <persistence-unit name="WakeUp">
         <description>WakeUp Persistence Unit</description>
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>io.dungdm93.wakeup.models.Address</class>
-        <class>io.dungdm93.wakeup.models.Employee</class>
+        <class>io.dungdm93.wakeup.models.Customer</class>
+        <class>io.dungdm93.wakeup.models.Order</class>
+        <class>io.dungdm93.wakeup.models.Product</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
@@ -17,8 +18,11 @@
             <property name="javax.persistence.jdbc.password" value="qwerty"/>
 
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
+            <property name="hibernate.globally_quoted_identifiers" value="true"/>
             <property name="hibernate.hbm2ddl.auto" value="validate"/>
             <property name="hibernate.format_sql" value="true"/>
+            <!--<property name="org.hibernate.envers.audit_table_prefix" value="PRIOR_"/>-->
+            <!--<property name="org.hibernate.envers.audit_table_suffix" value=""/>-->
         </properties>
     </persistence-unit>
 </persistence>
