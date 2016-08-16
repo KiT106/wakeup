@@ -8,14 +8,13 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.ListJoin;
 import javax.persistence.criteria.Root;
-import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("WakeUp");
         EntityManager em = emf.createEntityManager();
 
-        inquiry(em);
+        setUp(em);
 
         em.close();
         emf.close();
@@ -66,9 +65,9 @@ public class Main {
         thaibinh.city = "Thai Binh";
         thaibinh.nation = "Vietnam";
 
-        bon.addresses = Arrays.asList(hanoi, haiduong);
-        dung.addresses = Arrays.asList(haiduong, thaibinh);
-        trang.addresses = Arrays.asList(thaibinh, hanoi);
+        bon.address = haiduong;
+        dung.address = hanoi;
+        trang.address = thaibinh;
 
         em.persist(hanoi);
         em.persist(haiduong);
