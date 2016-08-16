@@ -8,6 +8,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.ListJoin;
 import javax.persistence.criteria.Root;
+import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
@@ -65,13 +66,13 @@ public class Main {
         thaibinh.city = "Thai Binh";
         thaibinh.nation = "Vietnam";
 
-        bon.address = haiduong;
-        dung.address = hanoi;
-        trang.address = thaibinh;
+        bon.addresses = Arrays.asList(hanoi, haiduong);
+        dung.addresses = Arrays.asList(haiduong, thaibinh);
+        trang.addresses = Arrays.asList(thaibinh, hanoi);
 
-        em.persist(hanoi);
-        em.persist(haiduong);
-        em.persist(thaibinh);
+//        em.persist(hanoi);
+//        em.persist(haiduong);
+//        em.persist(thaibinh);
         em.persist(bon);
         em.persist(dung);
         em.persist(trang);

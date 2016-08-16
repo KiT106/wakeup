@@ -1,12 +1,23 @@
 package io.dungdm93.wakeup.models;
 
+import io.dungdm93.wakeup.type.JsonBinaryType;
+import io.dungdm93.wakeup.type.JsonStringType;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import java.util.List;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+@TypeDefs({
+        @TypeDef(name = "json", typeClass = JsonStringType.class),
+        @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
+})
 @Entity
 public class Employee {
     @Id
@@ -16,8 +27,9 @@ public class Employee {
     public String name;
     public Integer age;
 
-    @ManyToOne
-    public Address address;
+    @Type(type = "json")
+    @Column(columnDefinition = "json")
+    public List<Address> addresses;
 
     @Override
     public String toString() {
