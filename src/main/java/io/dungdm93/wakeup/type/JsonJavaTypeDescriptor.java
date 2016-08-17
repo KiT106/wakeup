@@ -1,10 +1,13 @@
 package io.dungdm93.wakeup.type;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.hibernate.annotations.common.reflection.java.JavaXMember;
 import org.hibernate.type.descriptor.WrapperOptions;
 import org.hibernate.type.descriptor.java.AbstractTypeDescriptor;
 import org.hibernate.usertype.DynamicParameterizedType;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 import java.util.Properties;
 
 public class JsonJavaTypeDescriptor
@@ -17,8 +20,8 @@ public class JsonJavaTypeDescriptor
 
     @Override
     public void setParameterValues(Properties parameters) {
-        Class<?> jsonObjectClass = ((ParameterType) parameters.get(PARAMETER_TYPE)).getReturnedClass();
-        jackson().setObjectType(jsonObjectClass);
+        Type jsonType = getJavaTypeOfField((JavaXMember) parameters.get(XPROPERTY));
+        jackson().setObjectType(jsonType);
     }
 
     @Override
@@ -69,5 +72,17 @@ public class JsonJavaTypeDescriptor
 
     private JsonMutabilityPlan jackson() {
         return (JsonMutabilityPlan) getMutabilityPlan();
+    }
+
+    private Type getJavaTypeOfField(JavaXMember member) {
+        // The better way is
+        // Type type = member.getJavaType(); // Oh no, it's protected
+        try {
+            Field field = JavaXMember.class.getDeclaredField("type");
+            field.setAccessible(true);
+            return (Type) field.get(member);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 }

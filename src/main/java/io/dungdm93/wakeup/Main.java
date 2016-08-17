@@ -6,7 +6,6 @@ import io.dungdm93.wakeup.models.Employee;
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.ListJoin;
 import javax.persistence.criteria.Root;
 import java.util.Arrays;
 
@@ -25,12 +24,14 @@ public class Main {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Employee> q = cb.createQuery(Employee.class);
         Root<Employee> employee = q.from(Employee.class);
-        ListJoin<Employee, Address> address = employee.joinList("addresses");
 
         q.select(employee).distinct(true)
-                .where(cb.like(address.get("city"), "%Binh%"));
+                .where(cb.equal(employee.get("id"), 1L));
         TypedQuery<Employee> query = em.createQuery(q);
-        query.getResultList().forEach(System.out::println);
+
+        Employee e = query.getSingleResult();
+        System.out.println(e);
+        e.addresses.forEach(System.out::println);
     }
 
     public static void setUp(EntityManager em) {

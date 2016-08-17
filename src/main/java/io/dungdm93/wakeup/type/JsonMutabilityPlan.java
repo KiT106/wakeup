@@ -1,23 +1,25 @@
 package io.dungdm93.wakeup.type;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.type.descriptor.java.MutableMutabilityPlan;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 
 public class JsonMutabilityPlan extends MutableMutabilityPlan<Object> {
     public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-    private Class<?> objectType;
+    private JavaType type;
 
-    public void setObjectType(Class<?> type) {
-        this.objectType = type;
+    public void setObjectType(Type type) {
+        this.type = OBJECT_MAPPER.getTypeFactory().constructType(type);
     }
 
     public Object fromString(String json) {
         try {
-            return OBJECT_MAPPER.readValue(json, objectType);
+            return OBJECT_MAPPER.readValue(json, type);
         } catch (IOException e) {
             throw new IllegalArgumentException("The given string value: "
                     + json + " cannot be transformed to JSON object");
