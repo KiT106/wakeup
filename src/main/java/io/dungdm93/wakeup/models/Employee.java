@@ -10,7 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.util.List;
+import java.util.Map;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -29,7 +29,7 @@ public class Employee {
 
     @Type(type = "json")
     @Column(columnDefinition = "json")
-    public List<Address> addresses;
+    public Map<String, Address> addresses;
 
     @Override
     public String toString() {

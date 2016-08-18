@@ -7,7 +7,7 @@ import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.Arrays;
+import java.util.HashMap;
 
 public class Main {
     public static void main(String[] args) {
@@ -32,7 +32,7 @@ public class Main {
 
         Employee e = query.getSingleResult();
         System.out.println(e);
-        e.addresses.forEach(System.out::println);
+        e.addresses.forEach((type, address) -> System.out.printf("%s = %s%n", type, address));
     }
 
     public static void setUp(EntityManager em) {
@@ -40,18 +40,9 @@ public class Main {
         tx.begin();
 
         // Employee
-        Employee bon = new Employee();
-        bon.name = "Bon Dang Manh";
-        bon.age = 25;
-
         Employee dung = new Employee();
         dung.name = "Dung Dang Minh";
         dung.age = 24;
-
-        Employee trang = new Employee();
-        trang.name = "Pham Thi Hoai Trang";
-        trang.age = 20;
-
 
         Address hanoi = new Address();
         hanoi.street = "Cau Giay";
@@ -68,16 +59,12 @@ public class Main {
         thaibinh.city = "Thai Binh";
         thaibinh.nation = "Vietnam";
 
-        bon.addresses = Arrays.asList(hanoi, haiduong);
-        dung.addresses = Arrays.asList(haiduong, thaibinh);
-        trang.addresses = Arrays.asList(thaibinh, hanoi);
+        dung.addresses = new HashMap<>();
+        dung.addresses.put("Home", haiduong);
+        dung.addresses.put("Work", hanoi);
+        dung.addresses.put("Wife", thaibinh);
 
-//        em.persist(hanoi);
-//        em.persist(haiduong);
-//        em.persist(thaibinh);
-        em.persist(bon);
         em.persist(dung);
-        em.persist(trang);
         tx.commit();
     }
 }
