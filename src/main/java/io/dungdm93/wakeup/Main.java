@@ -15,6 +15,7 @@ public class Main {
         EntityManager em = emf.createEntityManager();
 
         setUp(em);
+        inquiry(em);
 
         em.close();
         emf.close();
