@@ -26,8 +26,8 @@ public class JsonStringType implements UserType, ParameterizedType, Serializable
     private static final ObjectMapper MAPPER = new ObjectMapper();
     private static final int[] SUPPORTED_SQL_TYPES = new int[]{Types.LONGVARCHAR, Types.CLOB, Types.BLOB};
 
-    private static final String JAVA_TYPE = "javaType";
-    private static final String SQL_TYPE = "sqlType";
+    public static final String JAVA_TYPE = "javaType";
+    public static final String SQL_TYPE = "sqlType";
 
     // before any guessing
     private Class<?> javaType = Object.class;
